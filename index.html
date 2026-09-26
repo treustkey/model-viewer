@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebAR — model-viewer (Robot)</title>
+
+    <!-- Подключаем веб-компонент <model-viewer> -->
+    <script type="module"
+            src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js">
+    </script>
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: #0f1115;
+            color: #eee;
+            font-family: system-ui, sans-serif;
+        }
+        header {
+            text-align: center;
+            padding: 16px;
+        }
+        model-viewer {
+            width: 100%;
+            height: 70vh;
+            background: #1a1a1a;
+            --poster-color: #1a1a1a;
+        }
+        .hint {
+            text-align: center;
+            padding: 12px;
+            opacity: 0.75;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>WebAR-сценарий на &lt;model-viewer&gt;</h1>
+    </header>
+
+    <!--
+      • src           — модель робота в формате GLB (glTF binary)
+      • ios-src       — та же модель в USDZ для iOS Quick Look
+      • ar            — включает AR-режим
+      • ar-modes      — webxr (Chrome/Android), scene-viewer (Android fallback),
+                        quick-look (iOS)
+      • autoplay      — автоматически проигрывает анимацию робота
+      • environment-image — HDRI-карта для PBR-освещения
+    -->
+    <model-viewer
+        src="https://modelviewer.dev/shared-assets/models/RobotExpressive.glb"
+        ios-src="https://modelviewer.dev/shared-assets/models/RobotExpressive.usdz"
+        alt="3D-модель робота"
+        ar
+        ar-modes="webxr scene-viewer quick-look"
+        ar-scale="auto"
+        ar-placement="floor"
+
+        camera-controls
+        touch-action="pan-y"
+        auto-rotate
+        auto-rotate-delay="2000"
+        autoplay
+
+        environment-image="https://modelviewer.dev/shared-assets/environments/moon_1k.hdr"
+        shadow-softness="0.8"
+        shadow-intensity="1.2"
+
+        exposure="1"
+        camera-orbit="45deg 75deg 3m">
+    </model-viewer>
+
+    <p class="hint">
+        Вращайте модель мышью/пальцем. На мобильном устройстве нажмите кнопку «AR»,
+        чтобы разместить робота в реальной среде.
+    </p>
+
+</body>
+</html>
