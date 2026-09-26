@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WebAR — model-viewer (Robot)</title>
 
-    <!-- Используем последнюю стабильную версию model-viewer -->
+    <!-- Стабильная версия model-viewer -->
     <script type="module"
-            src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
+            src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js">
     </script>
 
     <style>
@@ -33,15 +33,6 @@
             text-align: center;
             padding: 12px;
             opacity: 0.75;
-            font-size: 14px;
-        }
-        .debug {
-            background: #222;
-            padding: 12px;
-            margin: 12px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-family: monospace;
         }
     </style>
 </head>
@@ -52,68 +43,26 @@
     </header>
 
     <!--
-      ИСПРАВЛЕНИЯ:
-      • Обновлена версия model-viewer до 4.0.0
-      • Упрощены ar-modes для максимальной совместимости
-      • Добавлен ar-placement="floor" для корректного размещения
-      • Убрана анимация (может конфликтовать с AR)
+      Минимальная рабочая конфигурация для AR:
+      • src — модель GLB для Android/десктопа
+      • ios-src — модель USDZ для iOS
+      • ar — включает AR-режим
+      • ar-modes — все три режима для максимальной совместимости
+      • camera-controls — вращение/зум в 3D-просмотрщике
     -->
     <model-viewer
         src="https://modelviewer.dev/shared-assets/models/RobotExpressive.glb"
         ios-src="https://modelviewer.dev/shared-assets/models/RobotExpressive.usdz"
         alt="3D-модель робота"
-        
         ar
         ar-modes="webxr scene-viewer quick-look"
-        ar-placement="floor"
-        ar-scale="auto"
-        
-        camera-controls
-        touch-action="pan-y"
-        auto-rotate
-        auto-rotate-delay="2000"
-        
-        environment-image="https://modelviewer.dev/shared-assets/environments/moon_1k.hdr"
-        shadow-softness="0.8"
-        shadow-intensity="1.2"
-        
-        exposure="1"
-        camera-orbit="45deg 75deg 3m">
+        camera-controls>
     </model-viewer>
 
     <p class="hint">
         Вращайте модель мышью/пальцем. На мобильном устройстве нажмите кнопку «AR» 
         (иконка куба с плюсиком внизу справа), чтобы разместить робота в реальной среде.
     </p>
-
-    <!-- Блок отладки (можно удалить после проверки) -->
-    <div class="debug" id="debug">
-        <strong>Отладка:</strong><br>
-        <span id="debug-info">Загрузка...</span>
-    </div>
-
-    <script>
-        const mv = document.querySelector('model-viewer');
-        const debugInfo = document.getElementById('debug-info');
-        
-        // Проверяем поддержку AR
-        if (mv.canActivateAR) {
-            debugInfo.textContent = '✅ AR поддерживается на этом устройстве';
-        } else {
-            debugInfo.textContent = '❌ AR не поддерживается. Проверьте: 1) HTTPS, 2) мобильное устройство, 3) наличие ARCore/ARKit';
-        }
-        
-        // Отслеживаем события AR
-        mv.addEventListener('ar-status', (event) => {
-            console.log('AR статус:', event.detail.status);
-            debugInfo.textContent = `AR статус: ${event.detail.status}`;
-        });
-        
-        mv.addEventListener('ar-failed', (event) => {
-            console.error('AR ошибка:', event.detail);
-            debugInfo.textContent = `AR ошибка: ${event.detail.message || 'неизвестная ошибка'}`;
-        });
-    </script>
 
 </body>
 </html>
